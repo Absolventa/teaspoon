@@ -14,8 +14,12 @@ class Teaspoon::SuiteController < ActionController::Base
 
   def hook
     hooks = Teaspoon::Suite.new(params).hooks[params[:hook].to_s]
-    hooks.each { |hook| hook.call(params[:args]) }
-    render nothing: true
+    body = hooks.map { |hook| hook.call(params[:args]) }.join("\n")
+    if body = body.presence
+      render json: body
+    else
+      render nothing: true
+    end
   end
 
   def fixtures
