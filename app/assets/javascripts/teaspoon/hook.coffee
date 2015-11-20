@@ -18,5 +18,6 @@ Teaspoon.hook = (name, payload = {}) ->
     xhr.send(JSON.stringify(args: payload))
 
   xhrRequest "#{Teaspoon.suites.active}/#{name}", payload, ->
+    debugger
     return unless xhr.readyState == 4
     throw("Unable to call hook \"#{url}\".") unless xhr.status == 200
